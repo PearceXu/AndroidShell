@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,18 +39,20 @@ public class MainActivity extends AppCompatActivity {
                     mConsoleEt.setText(CMD_HEAD);
                     mConsoleEt.append("\n");
                     excute(cmd);
+                    mConsoleEt.setSelection(mConsoleEt.getText().length());
                     mConsoleEt.addTextChangedListener(mTextWatcher);
                 }
                     return true;
             }
         });
-        mConsoleEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mConsoleEt.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    mConsoleEt.setSelection(mConsoleEt.getText().length());
-                    mConsoleEt.requestFocus();
-                }
+            public boolean onTouch(View v, MotionEvent event) {
+                mConsoleEt.onTouchEvent(event);
+                mConsoleEt.setSelection(mConsoleEt.getText().length());
+                mConsoleEt.requestFocus();
+                return true;
             }
         });
         mTextWatcher = new TextWatcher() {
